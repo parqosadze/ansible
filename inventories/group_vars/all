@@ -1,0 +1,12 @@
+default_packages:
+  - vim
+  - mc
+  - wget
+  - tree
+  - bash-completion
+  - ca-certificates
+  - unzip
+  - figlet
+  - traceroute
+  - tcpdump
+  - nfs-common

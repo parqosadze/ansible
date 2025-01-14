@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Create superuser
+      user:
+        name: superuser
+        

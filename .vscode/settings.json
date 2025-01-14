@@ -1,0 +1,10 @@
+{
+
+    "ansible.validation.lint.enabled": false,
+    "ansible.validation.lint.path": "ansible-lint",
+
+
+
+    "ansible.python.interpreterPath": "/usr/bin/python3"
+
+}

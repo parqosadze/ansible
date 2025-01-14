@@ -1,0 +1,30 @@
+---
+- name: Configure SSH banner
+  hosts: all
+  become: yes
+  vars:
+    ssh_banner_message: |
+      Unauthorized Access is strictly prohibited.
+      TBC Academy
+
+  tasks:
+    - name: Create SSH banner file
+      copy:
+        dest: /etc/issue.net
+        content: "{{ ssh_banner_message }}"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable SSH banner in sshd_config
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "^Banner"
+        line: "Banner /etc/issue.net"
+        create: yes
+
+    - name: Restart SSH service
+      service:
+        name: ssh
+        state: restarted
+        enabled: yes

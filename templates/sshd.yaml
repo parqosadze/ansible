@@ -1,0 +1,35 @@
+---
+- name: Dynamically update SSHD configuration
+  hosts: all
+  become: yes
+  vars:
+    ssh_port: 22
+    ssh_login_grace_time: 1m
+    ssh_permit_root_login: "no"
+    ssh_max_auth_tries: 3
+    ssh_password_authentication: "no"
+
+  tasks:
+    - name: Backup existing sshd_config
+      copy:
+        src: /etc/ssh/sshd_config
+        dest: /etc/ssh/sshd_config.bak
+        remote_src: yes
+
+    - name: Update sshd_config parameters dynamically
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "^{{ item.key }}\\s+"
+        line: "{{ item.key }} {{ item.value }}"
+        create: yes
+      with_items:
+        - { key: "Port", value: "{{ ssh_port }}" }
+        - { key: "LoginGraceTime", value: "{{ ssh_login_grace_time }}" }
+        - { key: "PermitRootLogin", value: "{{ ssh_permit_root_login }}" }
+        - { key: "MaxAuthTries", value: "{{ ssh_max_auth_tries }}" }
+        - { key: "PasswordAuthentication", value: "{{ ssh_password_authentication }}" }
+
+    - name: Restart SSH service
+      service:
+        name: ssh
+        state: restarted

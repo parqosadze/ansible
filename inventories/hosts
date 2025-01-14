@@ -1,0 +1,6 @@
+all:
+   children:
+    davit_vms:
+      hosts:
+        185.229.108.122:
+

@@ -1,0 +1,25 @@
+---
+
+- name: davit-vms
+  hosts: all
+  become: yes  # Run as sudo
+  tasks:
+    - name: Update the apt package index
+      apt:
+        update_cache: yes
+
+    - name : change timezone
+      timezone:
+        name: Asia/Tbilisi   
+
+    - name: install default packages
+      apt:
+        name: "{{ default_packages }}"
+        state: latest
+
+
+    - name: Disable ufw
+      ansible.builtin.command:
+        cmd: ufw disable
+    
+    
